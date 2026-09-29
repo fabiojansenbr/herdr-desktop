@@ -1,0 +1,20 @@
+[package]
+name = "herdr-client"
+version = "0.1.0"
+description = "Herdr Desktop runtime gateway: shared contracts, frame store, local transport and JSON API client"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+herdr-protocol = { path = "../../vendor/herdr-protocol" }
+interprocess.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid = { version = "1", features = ["v4"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"

@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = [
+    "vendor/herdr-protocol",
+    "crates/herdr-client",
+    "src-tauri",
+]
+
+[workspace.package]
+edition = "2021"
+description = "Herdr Desktop — companion desktop client for the Herdr engine"
+license = "Apache-2.0"
+repository = "https://github.com/fabiojansenbr/herdr-desktop"
+homepage = "https://github.com/fabiojansenbr/herdr-desktop"
+publish = false
+
+[workspace.dependencies]
+# Pinned to the exact bincode the reference engine locks (herdr 03749ae Cargo.lock),
+# so the generation-1 payload digests are compared under the same encoder.
+bincode = { version = "=2.0.1", features = ["serde"] }
+interprocess = "2.4.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+
+# Test binaries link the whole Tauri/WebKit stack; full DWARF made each of them ~370 MB and
+# the per-worktree target dirs grew past 60 GB. Line tables keep file:line in backtraces.
+[profile.dev]
+debug = "line-tables-only"

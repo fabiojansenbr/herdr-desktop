@@ -1,0 +1,15 @@
+[package]
+name = "herdr-protocol"
+version = "0.1.0"
+description = "Read-only mirror of the Herdr endpoint generation-1 wire contract (see PROVENANCE.md)"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+bincode.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+sha2 = "0.10"

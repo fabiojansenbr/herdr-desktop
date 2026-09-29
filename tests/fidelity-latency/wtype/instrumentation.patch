@@ -1,0 +1,34 @@
+--- a/main.c
++++ b/main.c
+@@ -13,6 +13,7 @@
+ #include <xkbcommon/xkbcommon.h>
+ 
+ #include "virtual-keyboard-unstable-v1-client-protocol.h"
++#include "hd_latency.h"
+ 
+ #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
+ 
+@@ -344,15 +345,23 @@
+ 
+ static void type_keycode(struct wtype *wtype, unsigned int key_code)
+ {
++	static unsigned hd_index = 0;
++	int hd_on = hd_latency_fd() >= 0;
++	int64_t hd_press_ns = hd_on ? hd_latency_now_ns() : 0;
+ 	zwp_virtual_keyboard_v1_key(
+ 			wtype->keyboard, 0, key_code, WL_KEYBOARD_KEY_STATE_PRESSED
+ 	);
+ 	wl_display_roundtrip(wtype->display);
++	if (hd_on)
++		hd_latency_line("press", hd_index, key_code, hd_press_ns);
+ 	usleep(2000);
+ 	zwp_virtual_keyboard_v1_key(
+ 		wtype->keyboard, 0, key_code, WL_KEYBOARD_KEY_STATE_RELEASED
+ 	);
+ 	wl_display_roundtrip(wtype->display);
++	if (hd_on)
++		hd_latency_line("released", hd_index, key_code, hd_latency_now_ns());
++	hd_index++;
+ 	usleep(2000);
+ }
+ 

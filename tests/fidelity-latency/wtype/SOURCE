@@ -1,0 +1,8 @@
+name=wtype
+version=0.4
+tag=v0.4
+tag_object=1c00e68adb202ba3987f60f37451a7201c61005d
+commit=d71be3a7b3f93b534a2823fd68cabd7ac2a02359
+url=https://github.com/atx/wtype/archive/refs/tags/v0.4.tar.gz
+tarball_sha256=da91786d828b6a6e29b884bc510473939eda052658ebef87d7bdeafa6a8746f9
+license=MIT (LICENSE.wtype, copied verbatim from the tarball)

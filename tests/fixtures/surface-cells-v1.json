@@ -1,0 +1,100 @@
+{
+  "$comment": "Desktop renderer fixture for AC-001-02. Cell layout follows shell.surface.v1 semantics: wide graphemes occupy their first cell and the following cell carries an empty symbol; combining marks stay inside one grapheme cluster. Colours are the packed u32 of wire.rs (0x02RRGGBB rgb, 0x010000XX indexed, 0x000000XX named). The patch sequence must be applied in order on top of the full frame; the stale patch must be rejected.",
+  "boot_id": "boot-fixture-a",
+  "width": 8,
+  "height": 3,
+  "full": {
+    "projection_revision": 4,
+    "surface_revision": 10,
+    "cursor": { "x": 0, "y": 2, "visible": true, "shape": 2 },
+    "pane": { "pane_id": "w7:p3", "content_revision": 1, "rect": [0, 0, 8, 3], "inner_rect": [0, 0, 8, 3] },
+    "rows": [
+      [
+        { "s": "á", "fg": 50298880, "bg": 0, "m": 1 },
+        { "s": "界", "fg": 16777432, "bg": 0, "m": 0 },
+        { "s": "", "fg": 16777432, "bg": 0, "m": 0 },
+        { "s": "🦀", "fg": 4, "bg": 5, "m": 0 },
+        { "s": "", "fg": 4, "bg": 5, "m": 0 },
+        { "s": "é", "fg": 0, "bg": 0, "m": 4 },
+        { "s": "x", "fg": 0, "bg": 0, "m": 8 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 }
+      ],
+      [
+        { "s": "r", "fg": 2, "bg": 0, "m": 0 },
+        { "s": "e", "fg": 2, "bg": 0, "m": 0 },
+        { "s": "d", "fg": 2, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": "b", "fg": 33554431, "bg": 33619967, "m": 0 },
+        { "s": "l", "fg": 33554431, "bg": 33619967, "m": 0 },
+        { "s": "u", "fg": 33554431, "bg": 33619967, "m": 0 },
+        { "s": "e", "fg": 33554431, "bg": 33619967, "m": 0 }
+      ],
+      [
+        { "s": "$", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 },
+        { "s": " ", "fg": 0, "bg": 0, "m": 0 }
+      ]
+    ]
+  },
+  "patches": [
+    {
+      "$comment": "Typing 'ok' after the prompt; cursor advances. Also recolours 'red' to indexed 196.",
+      "projection_revision": 4,
+      "base_surface_revision": 10,
+      "surface_revision": 11,
+      "cursor": { "x": 4, "y": 2, "visible": true, "shape": 2 },
+      "rows": [
+        { "x": 2, "y": 2, "cells": [ { "s": "o", "fg": 0, "bg": 0, "m": 0 }, { "s": "k", "fg": 0, "bg": 0, "m": 0 } ] },
+        { "x": 0, "y": 1, "cells": [ { "s": "r", "fg": 16777412, "bg": 0, "m": 0 }, { "s": "e", "fg": 16777412, "bg": 0, "m": 0 }, { "s": "d", "fg": 16777412, "bg": 0, "m": 0 } ] }
+      ]
+    },
+    {
+      "$comment": "Wide char replaced by two narrow chars and cursor hidden.",
+      "projection_revision": 4,
+      "base_surface_revision": 11,
+      "surface_revision": 12,
+      "cursor": { "x": 4, "y": 2, "visible": false, "shape": 2 },
+      "rows": [
+        { "x": 1, "y": 0, "cells": [ { "s": "A", "fg": 0, "bg": 0, "m": 0 }, { "s": "B", "fg": 0, "bg": 0, "m": 0 } ] }
+      ]
+    }
+  ],
+  "stale_patch": {
+    "$comment": "Skips revision 13 (base 13 -> 14). Must be rejected; grid stays at revision 12 and input is blocked until a full frame arrives.",
+    "projection_revision": 4,
+    "base_surface_revision": 13,
+    "surface_revision": 14,
+    "cursor": { "x": 0, "y": 0, "visible": true, "shape": 2 },
+    "rows": [ { "x": 0, "y": 0, "cells": [ { "s": "Z", "fg": 0, "bg": 0, "m": 0 } ] } ]
+  },
+  "foreign_boot_patch": {
+    "$comment": "Same revisions as a valid next patch but from a different boot. Must be rejected.",
+    "boot_id": "boot-fixture-b",
+    "projection_revision": 4,
+    "base_surface_revision": 12,
+    "surface_revision": 13,
+    "cursor": null,
+    "rows": [ { "x": 0, "y": 0, "cells": [ { "s": "Q", "fg": 0, "bg": 0, "m": 0 } ] } ]
+  },
+  "expected_after_patches": {
+    "surface_revision": 12,
+    "cursor": { "x": 4, "y": 2, "visible": false, "shape": 2 },
+    "text_rows": ["áAB🦀éx ", "red blue", "$ ok    "],
+    "cells": {
+      "0,0": { "s": "á", "fg": 50298880, "m": 1 },
+      "1,0": { "s": "A", "fg": 0 },
+      "3,0": { "s": "🦀", "fg": 4, "bg": 5 },
+      "4,0": { "s": "" },
+      "5,0": { "s": "é", "m": 4 },
+      "0,1": { "s": "r", "fg": 16777412 },
+      "4,1": { "s": "b", "fg": 33554431, "bg": 33619967 },
+      "2,2": { "s": "o" },
+      "3,2": { "s": "k" }
+    }
+  }
+}

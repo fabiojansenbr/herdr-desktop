@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Herdr Desktop",
+  "version": "0.1.0",
+  "identifier": "dev.herdr.desktop",
+  "build": {
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Herdr Desktop",
+        "label": "main",
+        "width": 1100,
+        "height": 720,
+        "minWidth": 480,
+        "minHeight": 320,
+        "decorations": false,
+        "transparent": false,
+        "backgroundColor": "#0B0C10"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "deb",
+      "appimage",
+      "dmg",
+      "msi"
+    ],
+    "category": "DeveloperTool",
+    "shortDescription": "Companion client for the Herdr engine",
+    "longDescription": "Herdr Desktop is the graphical companion client for the Herdr terminal multiplexer engine: panes, tabs and collections for coding agents, over local and remote endpoints.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

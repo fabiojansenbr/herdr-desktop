@@ -1,0 +1,327 @@
+{
+ "version": 1,
+ "cjk_standalone_final_hex": "e4bda0e5a5bd0ae59381e9a5ae0ae68bbce99fb30ae4b8ade69687",
+ "items": [
+  {
+   "id": "accents-keysym",
+   "category": "accents",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-d",
+    "20",
+    "ação é ü"
+   ],
+   "commits": [
+    {
+     "text": "ação é ü",
+     "pty_hex": "61c3a7c3a36f20c3a920c3bc"
+    }
+   ],
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-NATIVE-INPUT.md §6 (textarea, plain mode)"
+  },
+  {
+   "id": "deadkey-gtk-compose",
+   "category": "accents",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-k",
+    "dead_acute",
+    "-s",
+    "50",
+    "-k",
+    "e",
+    "-s",
+    "50",
+    "-k",
+    "dead_tilde",
+    "-s",
+    "50",
+    "-k",
+    "a"
+   ],
+   "commits": [
+    {
+     "text": "é",
+     "pty_hex": "c3a9"
+    },
+    {
+     "text": "ã",
+     "pty_hex": "c3a3"
+    }
+   ],
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-NATIVE-INPUT.md §6 (GTK compose; two compositionend, send once)"
+  },
+  {
+   "id": "return-is-cr",
+   "category": "accents",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-k",
+    "Return"
+   ],
+   "commits": [
+    {
+     "text": "\r",
+     "pty_hex": "0d"
+    }
+   ],
+   "source": "proposed",
+   "evidence": "PTY encoding of Return; standalone probe only saw a textarea newline"
+  },
+  {
+   "id": "emoji-keysym",
+   "category": "emoji",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-d",
+    "20",
+    "🙂👍🏽"
+   ],
+   "commits": [
+    {
+     "text": "🙂👍🏽",
+     "pty_hex": "f09f9982f09f918df09f8fbd"
+    }
+   ],
+   "source": "proposed",
+   "evidence": "not typed natively yet (NATIVE-INPUT §7)"
+  },
+  {
+   "id": "cjk-keysym",
+   "category": "cjk",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-d",
+    "20",
+    "中文かな한글"
+   ],
+   "commits": [
+    {
+     "text": "中文かな한글",
+     "pty_hex": "e4b8ade69687e3818be381aaed959ceab880"
+    }
+   ],
+   "source": "proposed",
+   "evidence": "not typed natively yet (NATIVE-INPUT §7)"
+  },
+  {
+   "id": "ime-fcitx5-hello",
+   "category": "ime",
+   "driver": "wtype",
+   "ime": "fcitx5-keyboard",
+   "keys": [
+    "-d",
+    "60",
+    "hello"
+   ],
+   "confirm": [
+    "-k",
+    "space"
+   ],
+   "commits": [
+    {
+     "text": "hello",
+     "pty_hex": "68656c6c6f"
+    }
+   ],
+   "preedit_pty_bytes": 0,
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-NATIVE-INPUT.md §1.3/§6 (preedit h..hello, commit on space)"
+  },
+  {
+   "id": "ime-pinyin-nihao",
+   "category": "ime",
+   "driver": "wtype",
+   "ime": "fcitx5-pinyin",
+   "keys": [
+    "-d",
+    "60",
+    "nihao"
+   ],
+   "confirm": [
+    "-k",
+    "space"
+   ],
+   "commits": [
+    {
+     "text": "你好",
+     "pty_hex": "e4bda0e5a5bd"
+    }
+   ],
+   "preedit_pty_bytes": 0,
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-CJK-INPUT.md (out/20260916T233319)"
+  },
+  {
+   "id": "ime-pinyin-candidate-1",
+   "category": "ime",
+   "driver": "wtype",
+   "ime": "fcitx5-pinyin",
+   "keys": [
+    "-d",
+    "60",
+    "pinyin"
+   ],
+   "confirm": [
+    "-k",
+    "space"
+   ],
+   "commits": [
+    {
+     "text": "品饮",
+     "pty_hex": "e59381e9a5ae"
+    }
+   ],
+   "preedit_pty_bytes": 0,
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-CJK-INPUT.md (dictionary order is part of this fixture)"
+  },
+  {
+   "id": "ime-pinyin-candidate-2",
+   "category": "ime",
+   "driver": "wtype",
+   "ime": "fcitx5-pinyin",
+   "keys": [
+    "-d",
+    "60",
+    "pinyin"
+   ],
+   "confirm": [
+    "-k",
+    "2"
+   ],
+   "commits": [
+    {
+     "text": "拼音",
+     "pty_hex": "e68bbce99fb3"
+    }
+   ],
+   "preedit_pty_bytes": 0,
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-CJK-INPUT.md"
+  },
+  {
+   "id": "ime-pinyin-zhongwen",
+   "category": "ime",
+   "driver": "wtype",
+   "ime": "fcitx5-pinyin",
+   "keys": [
+    "-d",
+    "60",
+    "zhongwen"
+   ],
+   "confirm": [
+    "-k",
+    "1"
+   ],
+   "commits": [
+    {
+     "text": "中文",
+     "pty_hex": "e4b8ade69687"
+    }
+   ],
+   "preedit_pty_bytes": 0,
+   "source": "observed-standalone",
+   "evidence": "docs/PREFLIGHT-CJK-INPUT.md"
+  },
+  {
+   "id": "paste-multiline",
+   "category": "paste",
+   "driver": "private-clipboard",
+   "ime": null,
+   "keys": [
+    "-M",
+    "ctrl",
+    "-M",
+    "shift",
+    "-k",
+    "v",
+    "-m",
+    "shift",
+    "-m",
+    "ctrl"
+   ],
+   "clipboard": "linha 1\nlinha ação 2\n",
+   "commits": [],
+   "expectation": "one paste; bytes once (bracketed when the app enables mode 2004); CR line endings; never replayed",
+   "source": "proposed",
+   "pending_on": "NativeEffects clipboard seam"
+  },
+  {
+   "id": "selection-copy",
+   "category": "selection",
+   "driver": "pointer",
+   "ime": null,
+   "keys": [],
+   "commits": [],
+   "expectation": "drag-select renders selection; copy reaches only the private clipboard (wl-paste on the private display)",
+   "source": "proposed",
+   "pending_on": "NativeEffects clipboard seam"
+  },
+  {
+   "id": "alt-screen-mouse",
+   "category": "alt-screen",
+   "driver": "pointer",
+   "ime": null,
+   "keys": [],
+   "commits": [],
+   "expectation": "inside an alt-screen app with mouse reporting, one click → one SGR report at the confirmed pane",
+   "source": "proposed",
+   "pending_on": "terminal_actions integration"
+  },
+  {
+   "id": "mouse-wheel-scrollback",
+   "category": "scrollback",
+   "driver": "pointer",
+   "ime": null,
+   "keys": [],
+   "commits": [],
+   "expectation": "wheel on the primary screen scrolls scrollback without sending bytes; alt-screen forwards per mode",
+   "source": "proposed",
+   "pending_on": "terminal_actions integration"
+  },
+  {
+   "id": "link-open",
+   "category": "links",
+   "driver": "pointer",
+   "ime": null,
+   "keys": [],
+   "commits": [],
+   "expectation": "activating a link records exactly one open-URL effect through the harness effects sink; never the user's browser",
+   "source": "proposed",
+   "pending_on": "NativeEffects open-URL seam"
+  },
+  {
+   "id": "resize-dpi",
+   "category": "resize-dpi",
+   "driver": "compositor",
+   "ime": null,
+   "keys": [],
+   "commits": [],
+   "expectation": "swaymsg output scale 1→2 and window resize → server confirms geometry once; canvas backing store follows devicePixelRatio",
+   "source": "proposed",
+   "pending_on": "surface interest/resize integration"
+  },
+  {
+   "id": "a11y-keyboard-navigation",
+   "category": "a11y",
+   "driver": "wtype",
+   "ime": null,
+   "keys": [
+    "-k",
+    "Tab"
+   ],
+   "commits": [],
+   "expectation": "native Tab moves a visible focus ring; focused controls have accessible names; connection/agent state has text besides color",
+   "source": "proposed",
+   "pending_on": "InputRouter focus integration"
+  }
+ ]
+}

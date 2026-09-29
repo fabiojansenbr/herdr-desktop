@@ -1,0 +1,57 @@
+[package]
+name = "herdr-desktop"
+version = "0.1.0"
+description = "Herdr Desktop — companion client for the Herdr engine"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+publish.workspace = true
+
+[lib]
+name = "herdr_desktop"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[[bin]]
+name = "herdr-desktop"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+herdr-client = { path = "../crates/herdr-client" }
+herdr-protocol = { path = "../vendor/herdr-protocol" }
+serde.workspace = true
+serde_json.workspace = true
+tauri = { version = "2", features = [] }
+uuid = { version = "1", features = ["v4"] }
+# Spec 006: reuse OpenSSH pipes; this crate supplies only the SFTP codec/client.
+# The provider must apply the framing/offset guards documented by the preflight.
+openssh-sftp-client = { version = "=0.15.8", default-features = false }
+bytes = "1"
+futures-core = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "process", "io-util", "time", "sync", "macros"] }
+tauri-plugin-clipboard-manager = "2"
+tauri-plugin-opener = "2"
+# Spec 028: read the clipboard image (arboard, already the library behind the clipboard plugin)
+# and encode it once as PNG for `ClientMessage::ClipboardImage`; the TUI reads encoded clipboard
+# bytes. Both crates were already in Cargo.lock as transitive dependencies.
+arboard = "3"
+png = "0.17"
+# Spec 016: native folder picker for "Abrir projeto" (dialog open only).
+tauri-plugin-dialog = "2"
+# Spec 020: malformed theme files are ignored with tracing::warn.
+tracing = "0.1"
+# Spec 067: language of the environment for the window's boot (`app_locale`).
+sys-locale = "0.3"
+
+[dev-dependencies]
+tempfile = "3"
+
+# Spec 007 memory diagnostic: resource-bench harness hook reads/sets WebKitSettings on the real
+# Wry WebView (same exact version wry already pins; test code only).
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+webkit2gtk = { version = "=2.0.2", features = ["v2_16"] }
+wayland-client = "=0.31.15"
+wayland-protocols-wlr = { version = "=0.3.12", features = ["client"] }
