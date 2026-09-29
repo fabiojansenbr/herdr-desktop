@@ -6,30 +6,42 @@ conventions the code follows.
 
 ## Environment
 
-Toolchain versions live in [`mise.toml`](mise.toml); [mise](https://mise.jdx.dev) installs
-them per project so nothing is pinned globally.
+Toolchain versions live in [`mise.toml`](mise.toml) (Rust, just, Node and Bun);
+[mise](https://mise.jdx.dev) installs them per project so nothing is pinned globally.
 
-```bash
-mise install          # Rust (stable) and just, as pinned in mise.toml
-bun install           # frontend dependencies, from bun.lock
-```
+1. **System libraries** Tauri needs to compile the window — on Linux `webkit2gtk-4.1` and its
+   GTK 3 dependencies. [docs/building.md](docs/building.md#system-dependencies) has the exact
+   packages per distribution (on Debian/Ubuntu, also `unzip`, `xdg-utils` and
+   `openssh-sftp-server`).
+2. **mise**, then the pinned toolchain and the frontend dependencies:
 
-You also need, outside mise:
+   ```bash
+   curl https://mise.run | sh                        # installs mise into ~/.local/bin
+   echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc   # or zsh/fish, see mise docs
+   mise trust && mise install                        # Rust, just, Node, Bun (mise.toml)
+   mise exec -- bun install --frozen-lockfile        # frontend dependencies, from bun.lock
+   ```
 
-- [Bun](https://bun.sh) — the frontend package manager and test runner.
-- The system libraries Tauri needs to compile the window. On Linux that is `webkit2gtk-4.1`
-  and its GTK 3 dependencies; see [docs/building.md](docs/building.md) for the full list per
-  operating system.
-- A [Herdr](https://github.com/herdrdev/herdr) engine (0.9.x) on the `PATH`, for running the
-  app and the native end-to-end tests.
+3. **cargo-nextest**, the Rust test runner (not managed by mise):
 
-Commands below are written with `mise exec --`, which is how they run inside this project.
+   ```bash
+   mise exec -- cargo install cargo-nextest --locked
+   # or the prebuilt binary: curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C ~/.cargo/bin
+   ```
+
+4. **Herdr** (0.9.x) on the `PATH`, for running the app and the native end-to-end tests — see
+   the [README](README.md#1-herdr-required).
+
+Commands below are written with `mise exec --`, which runs them with the pinned toolchain even
+when mise is not activated in your shell.
 
 ## Validation
 
-These five commands are the gate. All of them must pass on a clean tree:
+These five commands are the gate. All of them must pass on a clean tree. Build the frontend
+once first: the Rust crates embed `dist/` at compile time, so the Rust commands fail without it.
 
 ```bash
+mise exec -- bun run build          # once, and again after frontend changes
 mise exec -- bunx vitest run
 mise exec -- bun run check
 mise exec -- cargo nextest run --workspace
@@ -42,6 +54,11 @@ mise exec -- cargo fmt --all -- --check
 - `cargo nextest run --workspace` — the Rust suite: protocol contracts, frame store, bridge,
   connections, stores.
 - `cargo clippy … -D warnings` and `cargo fmt --all -- --check` — lint and formatting.
+
+Run the Rust suite as a regular (non-root) user: one store test checks that a failed save
+keeps the previous file, which permission bits cannot enforce for root. Two remote-files tests
+isolate a fake SSH host with `unshare -rm`, so they need unprivileged user namespaces — they
+work on a normal Linux desktop, but Docker's default seccomp profile blocks them.
 
 The native end-to-end tests are marked `#[ignore]` because they need a real window and a
 running engine; `cargo nextest run --workspace` reports them as skipped. Run them deliberately,

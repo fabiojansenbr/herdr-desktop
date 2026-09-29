@@ -95,13 +95,28 @@ server supports and dims the ones whose binary is not on the local `PATH`.
 
 ## Install
 
-Download the artifact for your system from the
-[Releases page](https://github.com/fabiojansenbr/herdr-desktop/releases) and install it the
-usual way for that format. [docs/releasing.md](docs/releasing.md) lists what each tag
-publishes.
+Download the package for your system from the
+[Releases page](https://github.com/fabiojansenbr/herdr-desktop/releases) (the first release,
+`v0.1.0`, is a pre-release) and install it the usual way for that format:
 
-There is no release yet while the first version is being prepared. Until then, build from
-source — [docs/building.md](docs/building.md) walks through it.
+| System | Package | Install |
+|---|---|---|
+| Debian, Ubuntu | `.deb` | `sudo apt install ./Herdr.Desktop_<version>_amd64.deb` |
+| Other Linux | `.AppImage` | `chmod +x Herdr.Desktop_<version>_amd64.AppImage` and run it (see the note below) |
+| macOS | `.dmg` (universal) | open it and drag the app to Applications — unsigned, see below |
+| Windows | `.msi` | run the installer — unsigned, see below |
+
+Or build from source — [docs/building.md](docs/building.md) walks through it.
+[docs/releasing.md](docs/releasing.md) lists what each tag publishes.
+
+**Known limitations of the packages**
+
+- **AppImage on Wayland with fractional scaling** (e.g. a 1.6× display): the AppImage bundles
+  an older GTK and runs the app through XWayland, so the interface follows the integer X11
+  scale and can look larger (and less sharp) than in a native build. Prefer the `.deb` on
+  Debian/Ubuntu, or build from source on other distributions.
+- **Unsigned macOS and Windows builds**: macOS Gatekeeper and Windows SmartScreen will warn on
+  first launch. These builds are also not verified by the maintainers yet.
 
 ## Basic use
 
